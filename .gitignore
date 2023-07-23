@@ -1,0 +1,4 @@
+__pycache__
+files
+recommender_model.py
+config/.env
