@@ -8,6 +8,7 @@ class Search(BaseModel):
 
 
 class Recommendation(BaseModel):
+    job_id: int
     job_title: str
     company_name: str
     salary_estimate: str
@@ -50,3 +51,8 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     id: Optional[str] = None
+
+
+class TrainModel(BaseModel):
+    train: str = "run"
+

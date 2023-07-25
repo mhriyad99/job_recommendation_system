@@ -5,15 +5,20 @@ from sqlalchemy import select
 
 from config import models
 
-nbrs = joblib.load('files\\job_recommender.joblib')
-vectorizer = joblib.load('files\\vectorizer.joblib')
+# nbrs = joblib.load('files\\job_recommender.joblib')
+# vectorizer = joblib.load('files\\vectorizer.joblib')
+
+job_id, vectorizer, model = joblib.load("models\\rec_model.joblib")
 
 
 def get_recommendation(query, n_neighbors, db: Session):
     queryTFIDF = vectorizer.transform(query)
-    distances, indices = nbrs.kneighbors(queryTFIDF, n_neighbors=n_neighbors)
-    q = select(models.Job).where(models.Job.job_id.in_(indices[0]))
-    res = db.execute(q).fetchall()
+    distances, indices = model.kneighbors(queryTFIDF, n_neighbors=n_neighbors)
+    rec_index = [job_id[i] for i in indices[0]]
+    res = db.query(models.Job).filter(models.Job.job_id.in_(indices[0])).all()
+    print(res)
+    # q = select(models.Job).where(models.Job.job_id.in_(rec_index))
+    # res = db.execute(q).all()
     # recommended = []
     # for i in range(len(indices[0])):
     #
