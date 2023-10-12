@@ -19,6 +19,18 @@ class Recommendation(BaseModel):
         orm_mode = True
 
 
+class JobDetails(BaseModel):
+    job_id: int
+    job_title: str
+    company_name: str
+    salary_estimate: str
+    location: str
+    job_description: str
+
+    class Config:
+        orm_mode = True
+
+
 class Recommendations(BaseModel):
     job: list[Recommendation]
 
